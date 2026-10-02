@@ -57,12 +57,8 @@ services:
       # requests by those headers instead of lumping everyone in as "the web container".
       - TRUST_PROXY=${TRUST_PROXY:-1}
     volumes:
-      - ./data:/data         # users, passkeys, per-user state, session secret — BACK THIS UP
-                             # (and uploads/: the photos and videos of custom exercises)
-      # Provider credential cache (Codex). A sibling of ./data on purpose: the documented backup
-      # is `tar czf … data/`, and a live refresh token must not end up inside it. Nothing here
-      # needs backing up — if you lose it, sign the provider in again.
-      - ./coach-auth:/coach-auth
+      - ../files/data:/data
+      - ../files/coach-auth:/coach-auth
 
   # Builds the React frontend (multi-stage) and serves it, proxying /api → api
   # and the exercise media from the shared volume. Single origin for passkeys.
